@@ -1,0 +1,70 @@
+/*
+#ffffff
+#7289da
+#99aab5
+#2c2f33
+#23272a
+*/
+body {
+    background: #2c2f33;
+    display: block;
+    color: #ffffff;
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 200px 1fr 1fr 1fr 1fr;
+    grid-template-areas: "pic pic pic pic pic pic"
+                         "head head head head head head"
+                         "aside aside main main main main"
+                         "aside aside main main main main"
+                         "foot foot foot foot foot foot";
+}
+
+#gr-pic {
+    grid-area: pic;
+    background: #23272a;
+    position: relative;
+}
+
+#gr-head {
+    grid-area: head;
+}
+
+#gr-aside {
+    grid-area: aside;
+}
+
+#gr-main {
+    grid-area: main;
+}
+
+#gr-foot {
+    grid-area: foot;
+}
+
+.pic-image {
+    position: absolute;
+    display: block;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: 5;
+    animation-name: spin;
+    animation-duration: 90s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.pic-image path:hover {
+    fill: #ffffff;
+    filter: drop-shadow( -5px -5px 5px #ffffff );
+}
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
