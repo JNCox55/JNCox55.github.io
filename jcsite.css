@@ -32,6 +32,22 @@ body {
 
 #gr-head {
     grid-area: head;
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 50px;
+    text-align: center;
+    position: relative;
+}
+
+#gr-head span {
+    margin: auto;
+    font-size: 1.15em;
+    cursor: pointer;
+}
+
+#gr-head span:hover {
+    border-bottom: 2px solid #7289da;
+    padding-bottom: 2px;
 }
 
 #gr-aside {
