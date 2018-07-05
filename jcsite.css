@@ -16,18 +16,18 @@ body {
 .grid-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 200px 1fr 1fr 1fr 1fr;
+    grid-template-rows: 200px auto auto auto auto;
     grid-template-areas: "pic pic pic pic pic pic"
                          "head head head head head head"
-                         "aside aside main main main main"
-                         "aside aside main main main main"
+                         "aside main main main main main"
+                         "empty main main main main main"
                          "foot foot foot foot foot foot";
 }
 
 #gr-pic {
     grid-area: pic;
-    background: #23272a;
     position: relative;
+    background: #23272a;
 }
 
 #gr-head {
@@ -54,12 +54,23 @@ body {
     grid-area: aside;
 }
 
+#gr-aside-empty {
+    grid-area: empty;
+    background: #23272a;
+}
+
 #gr-main {
     grid-area: main;
+    padding: 100px 25px 50px 25px;
+    background: #23272a;
 }
 
 #gr-foot {
     grid-area: foot;
+    background: #7289da;
+    text-align: center;
+    margin: auto 0;
+    padding: 20px;
 }
 
 .pic-image {
