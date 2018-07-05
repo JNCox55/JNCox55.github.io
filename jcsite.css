@@ -50,6 +50,11 @@ body {
     padding-bottom: 2px;
 }
 
+#gr-head a {
+    text-decoration: none;
+    color: inherit;
+}
+
 #gr-aside {
     grid-area: aside;
 }
