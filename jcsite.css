@@ -7,7 +7,7 @@
 */
 html, body {
     background: #2c2f33;
-    display: block;
+    /* display: block; */
     color: #ffffff;
     margin: 0px;
     width: 100%;
@@ -19,7 +19,7 @@ html, body {
     min-height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 200px 50px 500px auto 80px;
+    grid-template-rows: 200px 50px 500px auto 75px;
     grid-template-areas: "pic pic pic pic pic pic"
                          "head head head head head head"
                          "aside main main main main main"
@@ -77,7 +77,7 @@ html, body {
     grid-area: foot;
     background: #7289da;
     text-align: center;
-    margin: auto 0;
+    line-height: 75px;
 }
 
 .pic-image {
