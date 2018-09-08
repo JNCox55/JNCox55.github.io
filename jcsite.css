@@ -66,11 +66,31 @@ a {
     grid-area: aside;
     text-align: center;
     padding-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 100px auto;
+    grid-template-areas: "logo logo logo"
+                         "twitter youtube github"
+                         "quote quote quote";
 }
 
-#gr-aside img {
+#logo {
     max-width: 90%;
     max-height: 90%;
+    margin: auto;
+    grid-area: logo;
+}
+
+#icon-twitter {
+    grid-area: twitter;
+}
+
+#icon-youtube {
+    grid-area: youtube;
+}
+
+#icon-github {
+    grid-area: github;
 }
 
 #gr-aside-empty {
