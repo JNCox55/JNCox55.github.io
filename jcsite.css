@@ -111,6 +111,29 @@ a {
     line-height: 75px;
 }
 
+.post-summary {
+    display: grid;
+    grid-template-columns: 0.35fr 1fr;
+    grid-template-rows: 60px 30px 125px;
+    grid-template-areas: "postImage postTitle"
+                         "postImage postInfo"
+                         "postImage postExcerpt";
+    padding-bottom: 10px;
+}
+
+.post-image{
+    grid-area: postImage;
+}
+.post-title{
+    grid-area: postTitle;
+}
+.post-info{
+    grid-area: postInfo;
+}
+.post-excerpt{
+    grid-area: postExcerpt;
+}
+
 .pic-image {
     position: absolute;
     display: block;
