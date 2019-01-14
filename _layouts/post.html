@@ -2,12 +2,16 @@
 <html>
     {% include head.html %}
     <body>
-        <div class="grid-container">
-            {% include header.html %}
-            <div id="gr-main">
-                {{ content }}
+        <div class="grid-large-screen">
+            <div class="large-aside"></div>
+            <div class="grid-container">
+                {% include header.html %}
+                <div id="gr-main">
+                    {{ content }}
+                </div>
+                {% include footer.html %}
             </div>
-            {% include footer.html %}
+            <div class="large-aside2"></div>
         </div>
     </body>
 </html>

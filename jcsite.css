@@ -4,6 +4,7 @@
 #99aab5
 #2c2f33
 #23272a
+#171a1c
 */
 html, body {
     background: #2c2f33;
@@ -19,16 +20,55 @@ a {
     text-decoration: none;
 }
 
-.grid-container {
-    min-height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 200px 50px 500px auto 75px;
-    grid-template-areas: "pic pic pic pic pic pic"
-                         "head head head head head head"
-                         "aside main main main main main"
-                         "empty main main main main main"
-                         "foot foot foot foot foot foot";
+@media screen and (min-width: 1601px){
+
+    .grid-large-screen {
+        min-height: 100%;
+        display: grid;
+        grid-template-columns: auto 1600px auto;
+        grid-template-rows: auto;
+        grid-template-areas: "largeaside gridcontainer largeaside2";
+    }
+
+    .large-aside {
+        grid-area: largeaside;
+        background-color: #171a1c;
+    }
+
+    .large-aside2 {
+        grid-area: largeaside2;
+        background-color: #171a1c;
+    }
+
+    .grid-container {
+        grid-area: gridcontainer;
+        min-height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 200px 50px 500px auto 75px;
+        grid-template-areas: "pic pic pic pic pic pic"
+                             "head head head head head head"
+                             "aside main main main main main"
+                             "empty main main main main main"
+                             "foot foot foot foot foot foot";
+    }
+
+}
+
+@media screen and (max-width: 1600px) {
+
+    .grid-container {
+        min-height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 200px 50px 500px auto 75px;
+        grid-template-areas: "pic pic pic pic pic pic"
+                             "head head head head head head"
+                             "aside main main main main main"
+                             "empty main main main main main"
+                             "foot foot foot foot foot foot";
+    }
+
 }
 
 #gr-pic {
