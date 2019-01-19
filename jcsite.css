@@ -169,6 +169,65 @@ a {
     #gr-head-goals{grid-area: head-goals;}
 }
 
+@media screen and (device-max-width: 900px) {
+
+    .grid-container {
+        min-height: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 200px auto 500px auto 400px 75px;
+        grid-template-areas: "pic pic"
+                             "head head"
+                             "main main"
+                             "main main"
+                             "aside aside"
+                             "foot foot";
+    }
+
+    .grid-large-screen {
+        min-height: 100%;
+        display: grid;
+    }
+
+    .large-aside {
+        display: none;
+    }
+
+    .large-aside2 {
+        display: none;
+    }
+
+    #gr-aside-empty {
+        display: none;
+    }
+
+    #gr-head {
+        grid-area: head;
+        display:grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 50px 50px 50px 50px 50px 50px 50px 50px;
+        text-align: center;
+        position: relative;
+        grid-template-areas: "head-empty1"
+                             "head-empty2"
+                             "head-home"
+                             "head-art"
+                             "head-cyber"
+                             "head-gamedev"
+                             "head-reviews"
+                             "head-goals";
+    }
+
+    #gr-head-empty1{grid-area: head-empty1;}
+    #gr-head-empty2{grid-area: head-empty2;}
+    #gr-head-home{grid-area: head-home;}
+    #gr-head-art{grid-area: head-art;}
+    #gr-head-cyber{grid-area: head-cyber;}
+    #gr-head-gamedev{grid-area: head-gamedev;}
+    #gr-head-reviews{grid-area: head-reviews;}
+    #gr-head-goals{grid-area: head-goals;}
+}
+
 #gr-pic {
     grid-area: pic;
     position: relative;
