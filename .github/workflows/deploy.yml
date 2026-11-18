@@ -1,0 +1,55 @@
+name: Build and deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least privilege: nothing by default; each job asks for only what it needs.
+permissions: {}
+
+# One deployment at a time. Don't cancel a deploy that's already running.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read   # check out the repo
+      pages: read      # configure-pages reads the site URL
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false   # don't leave the token in .git/config for later steps
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build site
+        env:
+          # The URL GitHub Pages reports (picks up a custom domain automatically).
+          SITEURL: ${{ steps.pages.outputs.base_url }}
+        run: pelican content -s publishconf.py
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write     # publish to GitHub Pages
+      id-token: write  # OIDC token deploy-pages uses to prove where the artifact came from
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
