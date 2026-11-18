@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Search · {{ SITENAME }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ SITEURL }}/theme/css/article.css">{% endblock %}
+{% block body_class %}page-listing{% endblock %}
+{% block content %}
+<section class="listing search">
+  <header class="listing-header">
+    <p class="reader-kicker">Password Entry</p>
+    <h1>Search</h1>
+  </header>
+  <form class="search-form" role="search" action="" method="get">
+    <label class="sr-only" for="q">Search posts</label>
+    <input id="q" name="q" type="search" placeholder="type a title, tag, or word…" autocomplete="off">
+    <button type="submit">GO</button>
+  </form>
+  <p class="search-status" id="search-status" aria-live="polite"></p>
+  <ul class="spines" id="search-results"></ul>
+  <noscript><p>Search needs JavaScript. You can still browse by <a href="{{ SITEURL }}/{{ TAGS_URL }}">tags</a> or the <a href="{{ SITEURL }}/{{ ARCHIVES_URL }}">archives</a>.</p></noscript>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ SITEURL }}/theme/js/search.js" data-index="{{ SITEURL }}/search.json" data-root="{{ SITEURL }}/" defer></script>
+{% endblock %}

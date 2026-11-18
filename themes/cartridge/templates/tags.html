@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% import 'partials/macros.html' as m %}
+{% block title %}Tags · {{ SITENAME }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ SITEURL }}/theme/css/article.css">{% endblock %}
+{% block body_class %}page-listing{% endblock %}
+{% block content %}
+<section class="listing">
+  <header class="listing-header">
+    <p class="reader-kicker">Genre Select</p>
+    <h1>Tags</h1>
+  </header>
+  {% set max_count = tags|map('last')|map('length')|max if tags else 1 %}
+  <ul class="genre-grid">
+    {% for tag, tag_articles in tags|sort(attribute='0') %}
+    {% set weight = tag_articles|length / max_count %}
+    <li style="--w: {{ '%.2f'|format(weight) }};">
+      <a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }} <span class="count">{{ tag_articles|length }}</span></a>
+    </li>
+    {% endfor %}
+  </ul>
+
+  <h2 class="section-title">Categories</h2>
+  <ul class="genre-grid genre-grid--cats">
+    {% for category, cat_articles in categories %}
+    <li style="--w: 0.5;"><a href="{{ SITEURL }}/{{ category.url }}">{{ category }} <span class="count">{{ cat_articles|length }}</span></a></li>
+    {% endfor %}
+  </ul>
+  <p class="back-home"><a href="{{ SITEURL }}/search/">{{ m.icon('search') }} Search all posts</a></p>
+</section>
+{% endblock %}

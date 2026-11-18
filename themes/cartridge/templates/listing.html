@@ -1,0 +1,16 @@
+{# Shared layout for tag / category / archives pages. #}
+{% extends "base.html" %}
+{% import 'partials/macros.html' as m %}
+{% block head %}<link rel="stylesheet" href="{{ SITEURL }}/theme/css/article.css">{% endblock %}
+{% block body_class %}page-listing{% endblock %}
+{% block content %}
+<section class="listing">
+  <header class="listing-header">
+    <p class="reader-kicker">{% block kicker %}{% endblock %}</p>
+    <h1>{% block heading %}{% endblock %}</h1>
+    <p class="listing-count">{{ articles|length }} post{{ 's' if articles|length != 1 }}</p>
+  </header>
+  {{ m.spine_list(articles, SITEURL) }}
+  <p class="back-home"><a href="{{ SITEURL }}/{{ TAGS_URL }}">{{ m.icon('return') }} All tags</a></p>
+</section>
+{% endblock %}

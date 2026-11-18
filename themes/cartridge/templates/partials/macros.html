@@ -1,0 +1,79 @@
+{# Shared helpers. Import with: {% import 'partials/macros.html' as m %} #}
+
+{#
+  Pixel-art icons on Press Start 2P's 8x8 character grid (7 rows tall; the
+  bottom row is the empty baseline row). The arrows are traced from the full
+  font's own glyphs. The bundled Latin subset lacks them, and VT323 has none.
+  return/star/search are drawn to match, since neither font has those glyphs.
+  base.css has the same paths as CSS masks (--px-*) for pseudo-elements.
+#}
+{% set PX_ICONS = {
+  'right': 'M0 0h1v1H0zM0 1h3v1H0zM0 2h5v1H0zM0 3h7v1H0zM0 4h5v1H0zM0 5h3v1H0zM0 6h1v1H0z',
+  'left':  'M6 0h1v1H6zM4 1h3v1H4zM2 2h5v1H2zM0 3h7v1H0zM2 4h5v1H2zM4 5h3v1H4zM6 6h1v1H6z',
+  'down':  'M0 0h7v1H0zM1 1h5v2H1zM2 3h3v2H2zM3 5h1v2H3z',
+  'return': 'M5 0h2v1H5zM2 1h1v1H2zM5 1h2v1H5zM1 2h2v1H1zM5 2h2v1H5zM0 3h7v1H0zM0 4h7v1H0zM1 5h2v1H1zM2 6h1v1H2z',
+  'star':   'M3 0h1v1H3zM3 1h1v1H3zM0 2h7v1H0zM1 3h5v1H1zM2 4h3v1H2zM1 5h2v1H1zM4 5h2v1H4zM0 6h2v1H0zM5 6h2v1H5z',
+  'search': 'M1 0h3v1H1zM0 1h2v1H0zM3 1h2v1H3zM0 2h1v1H0zM4 2h1v1H4zM0 3h2v1H0zM3 3h2v1H3zM1 4h4v1H1zM4 5h2v1H4zM5 6h2v1H5z',
+} %}
+
+{% macro icon(name) -%}
+<svg class="px-icon" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="currentColor" d="{{ PX_ICONS[name] }}"/></svg>
+{%- endmacro %}
+
+{# Gruvbox Material accents: red, aqua, orange, blue, purple, yellow, green, grey2 #}
+{% set CART_PALETTE = ['#ea6962', '#89b482', '#e78a4e', '#7daea3', '#d3869b', '#d8a657', '#a9b665', '#a89984'] %}
+
+{% macro read_time(article) -%}
+{%- set mins = ((article.content|striptags|wordcount) / 200)|round(0, 'ceil')|int -%}
+{{ [mins, 1]|max }} min read
+{%- endmacro %}
+
+{% macro tag_list(article, SITEURL, cls='tag-chips') -%}
+{% if article.tags %}
+<ul class="{{ cls }}">
+  {% for tag in article.tags %}<li><a href="{{ SITEURL }}/{{ tag.url }}">#{{ tag }}</a></li>{% endfor %}
+</ul>
+{% endif %}
+{%- endmacro %}
+
+{#
+  A cartridge. `idx` picks a fallback colour/label when the post has no
+  Cover or Cart_color. `size` is "big" (console) or "mini" (shelf).
+#}
+{% macro cartridge(article, idx, SITEURL, size='big') -%}
+{%- set shell = article.cart_color|css_color -%}
+{%- set label_bg = CART_PALETTE[(idx - 1) % CART_PALETTE|length] -%}
+<span class="cart cart--{{ size }}" style="--cart: {{ shell }}; --label: {{ label_bg }};">
+  <span class="cart-grip" aria-hidden="true"></span>
+  <span class="cart-label">
+    {% if article.cover %}
+    <img src="{{ SITEURL }}/{{ article.cover }}" alt="" loading="lazy" decoding="async">
+    {% else %}
+    <span class="cart-label-text">{{ article.title }}</span>
+    {% endif %}
+  </span>
+  <span class="cart-title">{{ article.title }}</span>
+</span>
+{%- endmacro %}
+
+{# A cartridge "spine": compact list row used by the library, tag and category pages. #}
+{% macro spine(article, SITEURL) -%}
+<li class="spine" style="--cart: {{ article.cart_color|css_color }};">
+  <a class="spine-link" href="{{ SITEURL }}/{{ article.url }}">
+    <span class="spine-title">{{ article.title }}</span>
+    <time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+  </a>
+  {{ tag_list(article, SITEURL, 'tag-chips tag-chips--small') }}
+</li>
+{%- endmacro %}
+
+{% macro spine_list(articles, SITEURL) -%}
+{% for year, items in articles|groupby('date.year')|reverse %}
+<section class="year-group">
+  <h3 class="year">{{ year }}</h3>
+  <ul class="spines">
+    {% for a in items %}{{ spine(a, SITEURL) }}{% endfor %}
+  </ul>
+</section>
+{% endfor %}
+{%- endmacro %}

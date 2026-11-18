@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import 'partials/macros.html' as m %}
+{% block title %}{{ article.title|striptags }} · {{ SITENAME }}{% endblock %}
+{% block description %}{{ article.summary|striptags|trim }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ SITEURL }}/theme/css/article.css">{% endblock %}
+{% block body_class %}page-article{% endblock %}
+
+{% block content %}
+<article class="reader" style="--cart: {{ article.cart_color|css_color }};">
+  <header class="reader-header">
+    {% if article.cover %}
+    <div class="reader-cover"><img src="{{ SITEURL }}/{{ article.cover }}" alt=""></div>
+    {% endif %}
+    <div class="reader-headings">
+      <p class="reader-kicker"><a href="{{ SITEURL }}/{{ article.category.url }}">{{ article.category }}</a></p>
+      <h1>{{ article.title }}</h1>
+      <p class="reader-meta">
+        <time datetime="{{ article.date.isoformat() }}">{{ article.locale_date }}</time>
+        &middot; {{ m.read_time(article) }}
+        {% if article.modified %}&middot; updated <time datetime="{{ article.modified.isoformat() }}">{{ article.locale_modified }}</time>{% endif %}
+      </p>
+      {{ m.tag_list(article, SITEURL) }}
+    </div>
+  </header>
+
+  <div class="prose">
+    {{ article.content|safe }}
+  </div>
+
+  {# `articles` is newest-first: the item after this one is older (PREV), the one before is newer (NEXT). #}
+  {% set nb = namespace(prev=None, next=None) %}
+  {% for a in articles %}
+    {% if a.source_path == article.source_path %}
+      {% set nb.prev = loop.nextitem %}
+      {% set nb.next = loop.previtem %}
+    {% endif %}
+  {% endfor %}
+  <nav class="stage-nav" aria-label="More posts">
+    {% if nb.prev %}
+    <a class="stage prev" href="{{ SITEURL }}/{{ nb.prev.url }}">
+      <small>{{ m.icon('left') }} PREV STAGE</small><span>{{ nb.prev.title }}</span>
+    </a>
+    {% else %}<span></span>{% endif %}
+    {% if nb.next %}
+    <a class="stage next" href="{{ SITEURL }}/{{ nb.next.url }}">
+      <small>NEXT STAGE {{ m.icon('right') }}</small><span>{{ nb.next.title }}</span>
+    </a>
+    {% endif %}
+  </nav>
+  <p class="back-home"><a href="{{ SITEURL }}/">{{ m.icon('return') }} Back to the console</a></p>
+</article>
+{% endblock %}

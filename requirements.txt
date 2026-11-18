@@ -1,0 +1,4 @@
+pelican[markdown]>=4.10,<5
+pyyaml>=6
+# Pelican uses Pygments for code highlighting. 2.20.0 fixes CVE-2026-4539 (ReDoS).
+pygments>=2.20.0

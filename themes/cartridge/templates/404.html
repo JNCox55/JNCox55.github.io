@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import 'partials/macros.html' as m %}
+{% block title %}Game Over · {{ SITENAME }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ SITEURL }}/theme/css/crt.css"><link rel="stylesheet" href="{{ SITEURL }}/theme/css/console.css">{% endblock %}
+{% block body_class %}page-404{% endblock %}
+{% block content %}
+<section class="gameover">
+  <div class="tv tv--solo">
+    <div class="tv-bezel">
+      <div class="crt">
+        <div class="screen-panel gameover-screen" style="--show:block;--vis:visible">
+          <h1>GAME OVER</h1>
+          <p>Error 404: that page isn't in this cartridge.</p>
+          <p class="continue">CONTINUE? <span class="countdown" aria-hidden="true"></span></p>
+          <a class="press-start" href="{{ SITEURL }}/">{{ m.icon('right') }} PRESS START TO RETURN HOME</a>
+        </div>
+        <div class="crt-glass" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

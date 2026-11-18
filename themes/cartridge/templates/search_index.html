@@ -1,0 +1,11 @@
+{#- Rendered to /search.json (see DIRECT_TEMPLATES in pelicanconf.py). URLs are site-root relative. -#}
+[{% for a in articles %}
+{{ {
+  "title": a.title|striptags,
+  "url": a.url,
+  "date": a.date.strftime('%Y-%m-%d'),
+  "category": a.category.name,
+  "tags": a.tags|map(attribute='name')|list,
+  "summary": a.summary|striptags|trim
+}|tojson }}{{ "," if not loop.last }}{% endfor %}
+]

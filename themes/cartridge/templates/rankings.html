@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import 'partials/macros.html' as m %}
+{% block title %}{{ page.title }} · {{ SITENAME }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ SITEURL }}/theme/css/rankings.css">{% endblock %}
+{% block body_class %}page-rankings{% endblock %}
+{% block content %}
+{% set R = GAME_RANKINGS %}
+{% set games = R.games|sort(attribute='rank') %}
+{% set platforms = games|map(attribute='platform')|unique|list|sort %}
+<section class="arcade">
+  <header class="arcade-header">
+    <h1 class="arcade-title">{{ R.title or page.title }}</h1>
+    {% if R.intro %}<p class="arcade-intro">{{ R.intro }}</p>{% endif %}
+    {% if page.content|striptags|trim %}<div class="arcade-note">{{ page.content|safe }}</div>{% endif %}
+  </header>
+
+  {# CSS-only platform filter: radios + :has() #}
+  <fieldset class="filter">
+    <legend>Platform</legend>
+    <input type="radio" name="plat" id="plat-all" checked><label for="plat-all">ALL</label>
+    {% for p in platforms %}
+    <input type="radio" name="plat" id="plat-{{ loop.index }}"><label for="plat-{{ loop.index }}">{{ p }}</label>
+    {% endfor %}
+  </fieldset>
+  <style>
+  {% for p in platforms %}.arcade:has(#plat-{{ loop.index }}:checked) .score-row:not([data-platform="{{ loop.index }}"]){{ "," if not loop.last }}
+  {% endfor %}{ display: none; }
+  </style>
+
+  <ol class="scores">
+    {% for g in games %}
+    <li class="score-row rank-{{ g.rank|int }}" data-platform="{{ platforms.index(g.platform) + 1 }}" style="--score: {{ [[g.score|int, 0]|max, 100]|min }};">
+      <span class="rank">{{ g.rank }}</span>
+      {% if g.cover %}<img class="thumb" src="{{ SITEURL }}/{{ g.cover }}" alt="">{% else %}<span class="thumb thumb--blank" aria-hidden="true">{{ g.title[:1] }}</span>{% endif %}
+      <div class="game">
+        <h2 class="game-title">
+          {% set review = articles|selectattr('slug', 'equalto', g.review_slug)|first if g.review_slug %}
+          {% if review %}<a href="{{ SITEURL }}/{{ review.url }}">{{ g.title }}</a>{% else %}{{ g.title }}{% endif %}
+        </h2>
+        <p class="game-meta">{{ g.platform }} &middot; {{ g.year }}{% if review %} &middot; <a href="{{ SITEURL }}/{{ review.url }}">read review {{ m.icon('right') }}</a>{% endif %}</p>
+        <p class="verdict">{{ g.verdict }}</p>
+      </div>
+      <div class="score" aria-label="Score {{ g.score }} out of 100">
+        <span class="score-bar"><span></span></span>
+        <span class="score-num">{{ '%06d'|format(g.score * 1000) }}</span>
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+</section>
+{% endblock %}

@@ -1,0 +1,58 @@
+# Video game rankings shown on /game-rankings/.
+# Entries are sorted by `rank` when rendered, so order here doesn't matter.
+#
+#   rank:        position on the list (1 = best)
+#   title:       game title
+#   platform:    used for the platform filter chips
+#   year:        release year
+#   score:       0-100, drawn as a score bar
+#   verdict:     one-liner
+#   cover:       (optional) path under content/, e.g. images/covers/foo.png
+#   review_slug: (optional) slug of a blog post reviewing the game
+
+title: "All-Time High Scores"
+intro: "My personal, completely objective*, ever-changing ranking. (*Not objective.)"
+games:
+  - rank: 1
+    title: "Chrono Trigger"
+    platform: SNES
+    year: 1995
+    score: 99
+    verdict: "Time travel, thirteen endings, and the best soundtrack of the decade."
+    review_slug: why-chrono-trigger-still-holds-up
+  - rank: 2
+    title: "Super Metroid"
+    platform: SNES
+    year: 1994
+    score: 97
+    verdict: "Isolation as a design language. Still the gold standard for exploration."
+  - rank: 3
+    title: "The Legend of Zelda: Link's Awakening"
+    platform: Game Boy
+    year: 1993
+    score: 95
+    verdict: "A whole dream-world on a four-shade screen."
+  - rank: 4
+    title: "Sonic the Hedgehog 2"
+    platform: Genesis
+    year: 1992
+    score: 92
+    verdict: "Blast processing was marketing. The level design was real."
+  - rank: 5
+    title: "Pokémon Red & Blue"
+    platform: Game Boy
+    year: 1996
+    score: 90
+    verdict: "Link cables were the original social network."
+  - rank: 6
+    title: "GoldenEye 007"
+    platform: N64
+    year: 1997
+    score: 88
+    verdict: "No Oddjob. House rules."
+  - rank: 7
+    title: "Mega Man 2"
+    platform: NES
+    year: 1988
+    score: 86
+    verdict: "Metal Blade solves everything."

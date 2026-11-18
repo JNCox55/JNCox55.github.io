@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% import 'partials/macros.html' as m %}
+
+{% block title %}{% if articles_page and articles_page.number > 1 %}Game Library, page {{ articles_page.number }} · {% endif %}{{ SITENAME }}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ SITEURL }}/theme/css/console.css">
+<link rel="stylesheet" href="{{ SITEURL }}/theme/css/crt.css">
+{% set slots = articles[:CONSOLE_SLOTS] %}
+{% if slots %}
+{#
+  The whole carousel is driven by one radio group. This rule just flips a few
+  custom properties on whichever [data-slot] matches the checked radio;
+  console.css and crt.css decide what "active" looks like.
+#}
+<style>
+{% for a in slots %}.deck:has(#cart-{{ loop.index }}:checked) [data-slot="{{ loop.index }}"]{{ "," if not loop.last }}
+{% endfor %}{ --on: 1; --show: block; --vis: visible; }
+@supports not selector(:has(*)) { [data-slot="1"] { --on: 1; --show: block; --vis: visible; } }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block body_class %}page-home{% endblock %}
+
+{% block content %}
+{% set slots = articles[:CONSOLE_SLOTS] %}
+{% set n = slots|length %}
+
+<section class="deck" aria-label="Featured posts console">
+  {% for a in slots %}
+  <input class="cart-radio" type="radio" name="cart" id="cart-{{ loop.index }}"
+         value="{{ loop.index }}" {% if loop.first %}checked{% endif %}
+         aria-label="Load cartridge: {{ a.title }}" data-href="{{ SITEURL }}/{{ a.url }}">
+  {% endfor %}
+
+  <div class="setup">
+    {# ---------- CRT television ---------- #}
+    <div class="tv">
+      <div class="tv-bezel">
+        <div class="crt" aria-live="polite">
+          {% for a in slots %}
+          <article class="screen-panel" data-slot="{{ loop.index }}">
+            <header class="screen-hud">
+              <span>SLOT {{ loop.index }}/{{ n }}</span>
+              <span>{{ a.category|upper }}</span>
+            </header>
+            <div class="screen-body">
+              {% if a.cover %}<img class="screen-art" src="{{ SITEURL }}/{{ a.cover }}" alt="">{% endif %}
+              <div class="screen-text">
+                <h2 class="screen-title">{{ a.title }}</h2>
+                <p class="screen-meta">
+                  <time datetime="{{ a.date.isoformat() }}">{{ a.locale_date }}</time>
+                  &middot; {{ m.read_time(a) }}
+                </p>
+                <p class="screen-summary">{{ a.summary|striptags }}</p>
+                {{ m.tag_list(a, SITEURL, 'tag-chips tag-chips--crt') }}
+              </div>
+            </div>
+            <a class="press-start" href="{{ SITEURL }}/{{ a.url }}">{{ m.icon('right') }} PRESS START</a>
+          </article>
+          {% else %}
+          <div class="screen-panel screen-empty" style="--show:block;--vis:visible">
+            <p class="press-start">NO CARTRIDGE INSERTED</p>
+          </div>
+          {% endfor %}
+          <div class="crt-glass" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="tv-controls" aria-hidden="true">
+        <span class="tv-brand">PIXELVISION</span>
+        <span class="tv-knob"></span><span class="tv-knob"></span>
+        <span class="tv-power"></span>
+      </div>
+    </div>
+
+    {# ---------- Console + controller ---------- #}
+    <div class="rig">
+      <div class="console">
+        <div class="cart-stage">
+          {% for a in slots %}
+          <a class="stage-cart" data-slot="{{ loop.index }}" href="{{ SITEURL }}/{{ a.url }}" tabindex="-1" aria-hidden="true">
+            {{ m.cartridge(a, loop.index, SITEURL, 'big') }}
+          </a>
+          {% endfor %}
+        </div>
+        <div class="console-body" aria-hidden="true">
+          <div class="console-top"><span class="console-slot"></span></div>
+          <div class="console-face">
+            <span class="console-brand">HOME ARCADE <b>16</b></span>
+            <span class="console-led"></span>
+            <span class="console-btn">POWER</span>
+            <span class="console-btn">RESET</span>
+            <span class="console-vents"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="controller">
+        <span class="controller-cord" aria-hidden="true"></span>
+        {% for a in slots %}
+        {% set prev = n if loop.first else loop.index - 1 %}
+        {% set next = 1 if loop.last else loop.index + 1 %}
+        <div class="pad-set" data-slot="{{ loop.index }}">
+          <div class="pad">
+            <div class="dpad">
+              <span class="dpad-up" aria-hidden="true"></span>
+              <label class="dpad-left" for="cart-{{ prev }}" title="Previous cartridge"><span class="sr-only">Previous</span></label>
+              <span class="dpad-mid" aria-hidden="true"></span>
+              <label class="dpad-right" for="cart-{{ next }}" title="Next cartridge"><span class="sr-only">Next</span></label>
+              <span class="dpad-down" aria-hidden="true"></span>
+            </div>
+            <div class="pad-center">
+              <label class="pill" for="cart-{{ next }}">SELECT</label>
+              <a class="pill" href="{{ SITEURL }}/{{ a.url }}">START</a>
+            </div>
+            <div class="ab">
+              <label class="btn-b" for="cart-{{ prev }}" title="Previous cartridge">B</label>
+              <a class="btn-a" href="{{ SITEURL }}/{{ a.url }}" title="Read: {{ a.title }}">A</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="hint">{{ m.icon('left') }} {{ m.icon('right') }} to switch carts &middot; A / START to play</p>
+    </div>
+  </div>
+
+  {# ---------- Shelf of cartridges ---------- #}
+  {% if slots %}
+  <div class="shelf-wrap">
+    <h2 class="section-title">Cartridge Shelf</h2>
+    <div class="shelf">
+      {% for a in slots %}
+      <label class="shelf-cart" for="cart-{{ loop.index }}" data-slot="{{ loop.index }}" title="{{ a.title }}">
+        {{ m.cartridge(a, loop.index, SITEURL, 'mini') }}
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</section>
+
+{# Paginated by Pelican (PAGINATED_TEMPLATES in pelicanconf.py). `articles` is
+   always the full list, so the console above is identical on every page. #}
+{% set pg = articles_page %}
+<section class="library" id="library" aria-labelledby="library-title">
+  <h2 id="library-title" class="section-title">Game Library
+    <small>
+      {% if pg and pg.has_other_pages() %}posts {{ pg.start_index() }}&ndash;{{ pg.end_index() }} of {{ articles|length }}
+      {% else %}{{ articles|length }} posts{% endif %}
+    </small>
+  </h2>
+  {{ m.spine_list(pg.object_list if pg else articles, SITEURL) }}
+
+  {% if pg and pg.has_other_pages() %}
+  {% set P = articles_paginator %}
+  <nav class="pager" aria-label="Game Library pages">
+    {% if articles_previous_page %}
+    <a class="pager-step" href="{{ SITEURL }}/{{ articles_previous_page.url }}#library" rel="prev">{{ m.icon('left') }} PREV</a>
+    {% else %}<span class="pager-step" aria-disabled="true">{{ m.icon('left') }} PREV</span>{% endif %}
+
+    <ol class="pager-pages">
+      {% for n in P.page_range %}
+        {% set d = (n - pg.number)|abs %}
+        {% if n == 1 or n == P.num_pages or d <= 2 or (d == 3 and (n == 2 or n == P.num_pages - 1)) %}
+        <li>
+          {% if n == pg.number %}
+          <span class="pager-num" aria-current="page">{{ n }}</span>
+          {% else %}
+          <a class="pager-num" href="{{ SITEURL }}/{{ P.page(n).url }}#library" aria-label="Page {{ n }}">{{ n }}</a>
+          {% endif %}
+        </li>
+        {% elif d == 3 %}
+        <li class="pager-gap" aria-hidden="true">&hellip;</li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+
+    {% if articles_next_page %}
+    <a class="pager-step" href="{{ SITEURL }}/{{ articles_next_page.url }}#library" rel="next">NEXT {{ m.icon('right') }}</a>
+    {% else %}<span class="pager-step" aria-disabled="true">NEXT {{ m.icon('right') }}</span>{% endif %}
+  </nav>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ SITEURL }}/theme/js/console.js" defer></script>
+{% endblock %}
