@@ -20,10 +20,10 @@ jobs:
       contents: read   # check out the repo
       pages: read      # configure-pages reads the site URL
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false   # don't leave the token in .git/config for later steps
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -31,13 +31,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - id: pages
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
       - name: Build site
         env:
           # The URL GitHub Pages reports (picks up a custom domain automatically).
           SITEURL: ${{ steps.pages.outputs.base_url }}
         run: pelican content -s publishconf.py
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: output
 
@@ -52,4 +52,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
