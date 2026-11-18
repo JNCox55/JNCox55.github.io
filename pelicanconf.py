@@ -9,10 +9,10 @@ import yaml
 ROOT = Path(__file__).parent
 
 # --- Site identity ----------------------------------------------------------
-AUTHOR = "Player One"
-SITENAME = "Player One's Cartridge Shelf"
-SITE_TAGLINE = "Blowing dust off old ideas since 199X"
-SITEURL = ""
+AUTHOR = "Justin Cox"
+SITENAME = "Justin's Online Space"
+SITE_TAGLINE = "Can we just go back to the 90's? Please?"
+SITEURL = "https://JNCox55.github.io"
 
 TIMEZONE = "America/New_York"
 DEFAULT_LANG = "en"
@@ -119,7 +119,7 @@ PAGINATION_PATTERNS = (
 )
 MENU_PAGES = ["game-rankings", "about"]  # page slugs shown in the top nav
 SOCIAL = [
-    ("GitHub", "https://github.com/your-username"),
+    ("GitHub", "https://github.com/JNCox55"),
 ]
 
 # --- Data files ----------------------------------------------------------------
