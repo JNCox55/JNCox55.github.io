@@ -1,8 +1,15 @@
 Title: About
 Slug: about
 
-Hi! I'm **Player One**. This is where I write about games, tech, and whatever else is loaded in the console this week.
+# Intro
+Hi! I'm Justin. I'm a husband, father, engineer, and dreamer.
 
-- Started gaming on a hand-me-down 8-bit console
-- Still owns a CRT "for authenticity"
-- Opinions are my own, and my rankings are final (until I change them)
+As a 90's kid growing up, I've always loved video games and hope to be an indie game developer some day.
+
+# Links
+You can also find me here:
+
+* Youtube: [https://www.youtube.com/@BitBeginnings](https://www.youtube.com/@BitBeginnings)
+* Twitch (Game Dev): [https://www.twitch.tv/bitbeginnings](https://www.twitch.tv/bitbeginnings)
+* Twitch (Gaming): [https://www.twitch.tv/majormoose55](https://www.twitch.tv/majormoose55)
+* My Games: [https://bitbeginnings.itch.io](https://bitbeginnings.itch.io)
