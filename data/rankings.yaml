@@ -14,11 +14,13 @@ title: "All-Time High Scores"
 intro: "My personal, completely objective*, ever-changing ranking. (*Not objective.)"
 games:
   - rank: 1
-    title: "COMING SOON"
+    title: "Donkey Kong Country 2"
     platform: SNES
-    year: 1991
-    score: 99
-    verdict: "This will be populated soon"
+    year: 1995
+    score: 98
+    verdict: "Nostalgia or Masterpiece?...Yes!"
+    cover: images/covers/dkc2.png
+    review_slug: a-timeless-masterpiece
   - rank: 2
     title: "???"
     platform: N64
